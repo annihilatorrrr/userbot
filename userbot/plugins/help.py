@@ -43,10 +43,13 @@ async def module_help(bot: UserBot, message: Message):
             for x in commands:
                 this_command += f"-> `{str(x)}`\n```{str(commands[x])}```\n"
 
-            await message.edit(this_command, parse_mode=pyrogram.enums.ParseMode.MARKDOWN)
+            await message.edit(
+                this_command, parse_mode=pyrogram.enums.ParseMode.MARKDOWN
+            )
         else:
             await message.edit(
-                "`Please specify a valid module name.`", parse_mode=pyrogram.enums.ParseMode.MARKDOWN
+                "`Please specify a valid module name.`",
+                parse_mode=pyrogram.enums.ParseMode.MARKDOWN,
             )
 
     await asyncio.sleep(10)

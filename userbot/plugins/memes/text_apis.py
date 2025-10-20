@@ -49,7 +49,8 @@ for x in text_apis_data:
 
 
 @UserBot.on_message(
-    filters=filters.command(text_api_commands, ".") & (filters.me | filters.user(ALLOWED_USERS))
+    filters=filters.command(text_api_commands, ".")
+    & (filters.me | filters.user(ALLOWED_USERS))
 )
 async def text_api(bot: UserBot, message: Message):
     cmd = message.command

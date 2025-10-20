@@ -11,7 +11,7 @@ from pyrogram.types import Message
 
 
 class UserBot(Client):
-    def __init__(self, version='0.0.0'):
+    def __init__(self, version="0.0.0"):
         self.bio = None
         self.version = version
         config_file = "config/userbot.ini"
@@ -20,9 +20,9 @@ class UserBot(Client):
         self.config.read(config_file)
 
         super().__init__(
-            'userbot',
-            api_id=self.config.get('pyrogram', 'api_id'),
-            api_hash=self.config.get('pyrogram', 'api_hash'),
+            "userbot",
+            api_id=self.config.get("pyrogram", "api_id"),
+            api_hash=self.config.get("pyrogram", "api_hash"),
             app_version=self.version,
             plugins=dict(root=f"userbot/plugins"),
             workdir="./config",
@@ -34,7 +34,7 @@ class UserBot(Client):
         restart_reply_details = super().search_messages("me", query="#userbot_restart")
         async for x in restart_reply_details:
             _, chat_id, message_id = x.text.split(", ")
-            
+
             try:
                 await super().edit_message_text(
                     int(chat_id), int(message_id), "`Userbot Restarted!`"
@@ -43,17 +43,19 @@ class UserBot(Client):
                 await super().delete_messages("me", x.id)
             except Exception as c_e:
                 print(c_e)
-            
+
             break
 
         # await self.load_bio()
 
         me = await self.get_me()
-        print(f"{self.__class__.__name__} v{self.version} (Layer {layer}) started on @{me.username}.\n"
-              f"Hi!")
+        print(
+            f"{self.__class__.__name__} v{self.version} (Layer {layer}) started on @{me.username}.\n"
+            f"Hi!"
+        )
 
     async def load_bio(self):
-        my_chat = await self.get_chat('self')
+        my_chat = await self.get_chat("self")
         self.bio = my_chat.description
 
     # async def unload_bio(self):
@@ -83,7 +85,8 @@ class UserBot(Client):
         if pip:
             os.system("pip install -U -r requirements.txt")
 
-        os.execl(sys.executable, sys.executable, "-m", self.__class__.__name__.lower())
+        os.execl(sys.executable, sys.executable, "-m",
+                 self.__class__.__name__.lower())
         sys.exit()
 
     @staticmethod
@@ -93,7 +96,7 @@ class UserBot(Client):
         or replied to message text.
         """
         if not error_message:
-            error_message = 'No input text provided'
+            error_message = "No input text provided"
 
         cmd = message.command
 

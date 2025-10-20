@@ -14,7 +14,7 @@ def ReplyCheck(message: Message):
 
 
 def SpeedConvert(size):
-    power = 2 ** 10
+    power = 2**10
     zero = 0
     units = {0: "", 1: "Kbit/s", 2: "Mbit/s", 3: "Gbit/s", 4: "Tbit/s"}
     while size > power:
@@ -24,17 +24,17 @@ def SpeedConvert(size):
 
 
 def GetFromUserID(message: Message):
-    """ Get the user id of the incoming message."""
+    """Get the user id of the incoming message."""
     return message.from_user.id
 
 
 def GetChatID(message: Message):
-    """ Get the group id of the incoming message"""
+    """Get the group id of the incoming message"""
     return message.chat.id
 
 
 def GetUserMentionable(user: User):
-    """ Get mentionable text of a user."""
+    """Get mentionable text of a user."""
     if user.username:
         username = "@{}".format(user.username)
     else:
@@ -43,6 +43,7 @@ def GetUserMentionable(user: User):
         else:
             name_string = "{}".format(user.first_name)
 
-        username = "<a href='tg://user?id={}'>{}</a>".format(user.id, name_string)
+        username = "<a href='tg://user?id={}'>{}</a>".format(
+            user.id, name_string)
 
     return username

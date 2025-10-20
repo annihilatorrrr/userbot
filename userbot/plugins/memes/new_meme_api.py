@@ -30,13 +30,13 @@ async def meme_command(client: UserBot, message: Message):
                 await message.delete()
                 await client.send_photo(
                     message.chat.id,
-                    data['url'],
+                    data["url"],
                     caption=(
                         f"**{data['title']}**\n\n"
                         f"⬆️ {data.get('ups', 0)} | "
                         f"📌 r/{data.get('subreddit', 'memes')}\n"
                         f"`{data['url']}`"
-                    )
+                    ),
                 )
 
     except aiohttp.ClientError:

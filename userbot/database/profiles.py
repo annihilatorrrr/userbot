@@ -9,11 +9,7 @@ class Profiles:
         return self.profiles.find()
 
     def add_profile(self, channel_id, title, username):
-        data = {
-            'channel_id': channel_id,
-            'username': username,
-            'title': title
-        }
+        data = {"channel_id": channel_id, "username": username, "title": title}
         self.profiles.insert_one(data)
 
     def getProfile(self, idx):

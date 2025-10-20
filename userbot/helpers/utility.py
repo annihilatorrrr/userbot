@@ -65,10 +65,10 @@ def get_mock_text(sentence):
                 new_sentence += letter
         else:
             if (
-                    new_sentence[number - 2].isupper()
-                    and new_sentence[number - 1].isupper()
-                    or new_sentence[number - 2].islower()
-                    and new_sentence[number - 1].islower()
+                new_sentence[number - 2].isupper()
+                and new_sentence[number - 1].isupper()
+                or new_sentence[number - 2].islower()
+                and new_sentence[number - 1].islower()
             ):
                 # Checks if the two letters before are both upper or lowercase
                 if new_sentence[

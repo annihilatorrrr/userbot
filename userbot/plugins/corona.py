@@ -66,7 +66,8 @@ async def corona_search(bot: UserBot, message: Message):
 
         cc = PrettyTable()
         cc.header = False
-        country = r["countryInfo"]["iso3"] if len(r["country"]) > 12 else r["country"]
+        country = r["countryInfo"]["iso3"] if len(
+            r["country"]) > 12 else r["country"]
         cc.title = f"Corona Cases in {country}"
         cc.add_row(["Cases", f"{r['cases']:,}"])
         cc.add_row(["Cases Today", f"{r['todayCases']:,}"])

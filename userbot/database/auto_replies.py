@@ -14,7 +14,6 @@ class AutoReplies:
         data = {
             "chat_id": message.chat.id,
             "user_id": message.from_user.id,
-
         }
 
         self.auto_replies_table.insert_one(data)
@@ -50,4 +49,3 @@ class AutoReplies:
             }
             self.auto_replies_table.delete_many(query)
             return True
-

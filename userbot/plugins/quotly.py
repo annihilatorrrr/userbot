@@ -9,7 +9,7 @@ from userbot import UserBot
 from userbot.plugins.help import add_command_help
 
 
-@UserBot.on_message(filters.me & filters.command(["q"], '.'))
+@UserBot.on_message(filters.me & filters.command(["q"], "."))
 async def quotly(bot: UserBot, message: Message):
     if not message.reply_to_message:
         await message.edit("Reply to any users text message")
@@ -34,24 +34,27 @@ async def quotly(bot: UserBot, message: Message):
             progress += random.randint(0, 5)
 
             if progress > 100:
-                await message.edit('There was a long running error')
+                await message.edit("There was a long running error")
                 return
 
             try:
-                await message.edit("```Making a Quote\nProcessing {}%```".format(progress))
+                await message.edit(
+                    "```Making a Quote\nProcessing {}%```".format(progress)
+                )
             except:
                 await message.edit("ERROR")
 
-    if msg_id := msg[0]['message_id']:
+    if msg_id := msg[0]["message_id"]:
         await asyncio.gather(
             message.delete(),
-            bot.forward_messages(message.chat.id, "@QuotLyBot", msg_id)
+            bot.forward_messages(message.chat.id, "@QuotLyBot", msg_id),
         )
 
 
 # Command help section
 add_command_help(
-    'quotly', [
-        ['.q | .quote', 'Make a quote with reply to message.'],
-    ]
+    "quotly",
+    [
+        [".q | .quote", "Make a quote with reply to message."],
+    ],
 )

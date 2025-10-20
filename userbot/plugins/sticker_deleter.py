@@ -16,12 +16,13 @@ async def delete_sticker_here(bot: UserBot, message: Message):
     if chat_details is not None:
 
         chat_id = chat_details["chat_id"]
-        sticker_id = chat_details['sticker_id']
+        sticker_id = chat_details["sticker_id"]
 
-        if chat_id == message.chat.id and sticker_id == sticker_message.sticker.file_unique_id:
-            await message.edit(
-                "```Deletion for this sticker enabled here...```"
-            )
+        if (
+            chat_id == message.chat.id
+            and sticker_id == sticker_message.sticker.file_unique_id
+        ):
+            await message.edit("```Deletion for this sticker enabled here...```")
 
     elif chat_details is None:
         StickerDeleter().add_sticker_in_chat(sticker_message)
@@ -48,8 +49,10 @@ async def stickered(bot: UserBot, message: Message):
         chat_details = StickerDeleter().find_chat_id(message)
 
         if chat_details is not None:
-            if chat_details["chat_id"] == message.chat.id \
-                    and chat_details['sticker_id'] == message.sticker.file_unique_id:
+            if (
+                chat_details["chat_id"] == message.chat.id
+                and chat_details["sticker_id"] == message.sticker.file_unique_id
+            ):
                 await message.delete()
     except Exception as e:
         print("Sticker Deleter: MongoDB not configured")
@@ -58,7 +61,13 @@ async def stickered(bot: UserBot, message: Message):
 add_command_help(
     "stickerdel",
     [
-        [".stickerdel", "Reply to a sticker and the bot will delete it from the chat each time it is sent."],
-        ["!stickerdel", "Run the command and it will stop deleting all stickers in a chat."],
+        [
+            ".stickerdel",
+            "Reply to a sticker and the bot will delete it from the chat each time it is sent.",
+        ],
+        [
+            "!stickerdel",
+            "Run the command and it will stop deleting all stickers in a chat.",
+        ],
     ],
 )

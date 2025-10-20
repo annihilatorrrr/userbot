@@ -23,12 +23,16 @@ def subtract_time(start, end):
 
 
 @UserBot.on_message(
-    ((filters.group & filters.mentioned) | filters.private) & ~filters.me & ~filters.service, group=3
+    ((filters.group & filters.mentioned) | filters.private)
+    & ~filters.me
+    & ~filters.service,
+    group=3,
 )
 async def collect_afk_messages(bot: UserBot, message: Message):
     if AFK:
         last_seen = subtract_time(datetime.now(), AFK_TIME)
-        is_group = True if message.chat.type in ["supergroup", "group"] else False
+        is_group = True if message.chat.type in [
+            "supergroup", "group"] else False
         CHAT_TYPE = GROUPS if is_group else USERS
 
         if GetChatID(message) not in CHAT_TYPE:
@@ -102,7 +106,8 @@ async def afk_unset(bot: UserBot, message: Message):
     global AFK, AFK_TIME, AFK_REASON, USERS, GROUPS
 
     if AFK:
-        last_seen = subtract_time(datetime.now(), AFK_TIME).replace("ago", "").strip()
+        last_seen = subtract_time(
+            datetime.now(), AFK_TIME).replace("ago", "").strip()
         await message.edit(
             f"`While you were away (for {last_seen}), you received {sum(USERS.values()) + sum(GROUPS.values())} "
             f"messages from {len(USERS) + len(GROUPS)} chats`"
@@ -122,7 +127,8 @@ async def auto_afk_unset(bot: UserBot, message: Message):
     global AFK, AFK_TIME, AFK_REASON, USERS, GROUPS
 
     if AFK:
-        last_seen = subtract_time(datetime.now(), AFK_TIME).replace("ago", "").strip()
+        last_seen = subtract_time(
+            datetime.now(), AFK_TIME).replace("ago", "").strip()
         reply = await message.reply(
             f"`While you were away (for {last_seen}), you received {sum(USERS.values()) + sum(GROUPS.values())} "
             f"messages from {len(USERS) + len(GROUPS)} chats`"
@@ -139,7 +145,10 @@ async def auto_afk_unset(bot: UserBot, message: Message):
 add_command_help(
     "afk",
     [
-        [".afk", "Activates AFK mode with reason as anything after .afk\nUsage: ```.afk <reason>```"],
+        [
+            ".afk",
+            "Activates AFK mode with reason as anything after .afk\nUsage: ```.afk <reason>```",
+        ],
         ["!afk", "Deactivates AFK mode."],
     ],
 )

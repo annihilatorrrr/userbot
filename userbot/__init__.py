@@ -11,25 +11,25 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from userbot.userbot import UserBot
 
 # Created logs folder if it is not there. Needed for logging.
-if not os.path.exists('logs'):
-    os.makedirs('logs')
+if not os.path.exists("logs"):
+    os.makedirs("logs")
 
 # Create config folder if it is not there. Needed for config.
-if not os.path.exists('config'):
-    os.makedirs('config')
+if not os.path.exists("config"):
+    os.makedirs("config")
 
 # Move the userbot.ini file from root to config folder if it is not there.
-if os.path.exists('userbot.ini'):
+if os.path.exists("userbot.ini"):
     # If 'userbot.ini' exists, move it to 'config/userbot.ini'
-    os.rename('userbot.ini', 'config/userbot.ini')
-elif not os.path.exists('config/userbot.ini'):
+    os.rename("userbot.ini", "config/userbot.ini")
+elif not os.path.exists("config/userbot.ini"):
     # If 'config/userbot.ini' also does not exist, print the message and exit the program
     print("Please create and configure config/userbot.ini and re-run the setup")
     sys.exit(1)
 
 # Move the userbot.session file from root to config folder if it is not there.
-if not os.path.exists('config/userbot.session') and os.path.exists('userbot.session'):
-    os.rename('userbot.session', 'config/userbot.session')
+if not os.path.exists("config/userbot.session") and os.path.exists("userbot.session"):
+    os.rename("userbot.session", "config/userbot.session")
 
 # Logging at the start to catch everything
 logging.basicConfig(
@@ -55,7 +55,7 @@ __author__ = "athphane"
 UserBot = UserBot(__version__)
 
 # Read from config file
-config_file = 'config/userbot.ini'
+config_file = "config/userbot.ini"
 config = ConfigParser()
 config.read(config_file)
 
@@ -67,9 +67,8 @@ DB_PASSWORD = config.get("mongo", "db_password")
 IS_ATLAS = config.getboolean("mongo", "is_atlas", fallback=False)
 
 # Other Users
-ALLOWED_USERS = ast.literal_eval(
-    config.get("users", "allowed_users", fallback="[]")
-)
+ALLOWED_USERS = ast.literal_eval(config.get(
+    "users", "allowed_users", fallback="[]"))
 
 # MISC APIs
 YOURLS_URL = config.get("misc", "yourls_url", fallback=None)
@@ -77,15 +76,14 @@ YOURLS_KEY = config.get("misc", "yourls_key", fallback=None)
 YANDEX_API_KEY = config.get("yandex", "key", fallback=None)
 SPOTIFY_USERNAME = config.get("spotify", "username", fallback=None)
 SPOTIFY_CLIENT_ID = config.get("spotify", "client_id", fallback=None)
-SPOTIFY_CLIENT_SECRET = config.get(
-    "spotify", "client_secret", fallback=None)
+SPOTIFY_CLIENT_SECRET = config.get("spotify", "client_secret", fallback=None)
 
 # Get the Values from our .env
 PM_PERMIT = config.get("pm_permit", "pm_permit")
 PM_LIMIT = int(config.get("pm_permit", "pm_limit"))
 LOG_GROUP = config.get("logs", "log_group")
 
-SOCKS5_PROXY = config.get('proxy', 'socks5_proxy', fallback=None)
+SOCKS5_PROXY = config.get("proxy", "socks5_proxy", fallback=None)
 
 # Scheduler
 scheduler = AsyncIOScheduler()

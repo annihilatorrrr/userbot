@@ -9,7 +9,7 @@ from userbot.plugins.help import add_command_help
 
 mention = partial("<a href='tg://user?id={}'>{}</a>".format)
 
-hmention = partial("<a href='tg://user?id={}'>\u200B</a>{}".format)
+hmention = partial("<a href='tg://user?id={}'>\u200b</a>{}".format)
 
 
 @UserBot.on_message(filters.command("mention", ".") & filters.me)

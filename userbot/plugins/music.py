@@ -9,7 +9,8 @@ from userbot.plugins.help import add_command_help
 
 
 @UserBot.on_message(
-    filters.command(["m", "music"], ".") & (filters.me | filters.user(ALLOWED_USERS))
+    filters.command(["m", "music"], ".") & (
+        filters.me | filters.user(ALLOWED_USERS))
 )
 async def send_music(bot: UserBot, message: Message):
     try:
@@ -20,7 +21,7 @@ async def send_music(bot: UserBot, message: Message):
             song_name = " ".join(cmd[1:])
         elif message.reply_to_message and len(cmd) == 1:
             song_name = (
-                    message.reply_to_message.text or message.reply_to_message.caption
+                message.reply_to_message.text or message.reply_to_message.caption
             )
         elif not message.reply_to_message and len(cmd) == 1:
             await message.edit("Give a song name")
@@ -41,11 +42,7 @@ async def send_music(bot: UserBot, message: Message):
 
             # forward as a new message from Saved Messages
             saved = await UserBot.get_messages("me", int(saved.updates[1].message.id))
-            reply_to = (
-                message.reply_to_message.id
-                if message.reply_to_message
-                else None
-            )
+            reply_to = message.reply_to_message.id if message.reply_to_message else None
             await bot.send_audio(
                 chat_id=message.chat.id,
                 audio=str(saved.audio.file_id),

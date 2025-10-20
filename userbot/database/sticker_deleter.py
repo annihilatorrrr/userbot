@@ -41,4 +41,3 @@ class StickerDeleter:
             }
             self.sticker_table.delete_many(query)
             return True
-

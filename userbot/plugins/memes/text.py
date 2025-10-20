@@ -7,16 +7,16 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from userbot import UserBot
-from userbot.helpers.PyroHelpers import GetUserMentionable
 from userbot.helpers.aiohttp_helper import AioHttp
-from userbot.helpers.constants import Fs, MEMES, Weebify
+from userbot.helpers.constants import MEMES, Fs, Weebify
+from userbot.helpers.PyroHelpers import GetUserMentionable
 from userbot.helpers.utility import get_mock_text
 from userbot.plugins.help import add_command_help
 
 
 @UserBot.on_message(filters=filters.command("lorem", ".") & filters.me)
 async def lorem(bot: UserBot, message: Message):
-    response = await AioHttp().get_text('https://loripsum.net/api/plaintext')
+    response = await AioHttp().get_text("https://loripsum.net/api/plaintext")
     await message.edit(response)
 
 
@@ -42,9 +42,7 @@ async def cock(bot: UserBot, message: Message):
 @UserBot.on_message(filters=filters.command("slap", ".") & filters.me)
 async def slap(bot: UserBot, message: Message):
     if message.reply_to_message is None:
-        await message.edit(
-            "`WHO SHOULD I SLAP?`"
-        )
+        await message.edit("`WHO SHOULD I SLAP?`")
         await asyncio.sleep(5)
         await message.delete()
         return
@@ -75,8 +73,8 @@ async def slap(bot: UserBot, message: Message):
 
 
 @UserBot.on_message(
-    filters=(filters.command("-_-", "") | filters.command("ok", "."))
-            & filters.me
+    filters=(filters.command("-_-", "") |
+             filters.command("ok", ".")) & filters.me
 )
 async def ok(bot: UserBot, message: Message):
     okay = "-_-"
@@ -87,7 +85,7 @@ async def ok(bot: UserBot, message: Message):
 
 @UserBot.on_message(
     filters=(filters.command(";_;", "") | filters.command(["sad", "cri"], "."))
-            & filters.me
+    & filters.me
 )
 async def sad_cri(bot: UserBot, message: Message):
     cri = ";_;"
@@ -178,7 +176,8 @@ async def weebify(bot: UserBot, message: Message):
 def weebify_text(raw_text):
     for normie_char in raw_text:
         if normie_char in Weebify.NORMIE_FONT:
-            weeby_char = Weebify.WEEBY_FONT[Weebify.NORMIE_FONT.index(normie_char)]
+            weeby_char = Weebify.WEEBY_FONT[Weebify.NORMIE_FONT.index(
+                normie_char)]
             raw_text = raw_text.replace(normie_char, weeby_char)
     return raw_text
 
@@ -265,15 +264,15 @@ async def heads_tails(bot: UserBot, message: Message):
     await message.edit(ht)
 
 
-@UserBot.on_message(filters=filters.command(["otherwise", 'other'], ".") & filters.me)
+@UserBot.on_message(filters=filters.command(["otherwise", "other"], ".") & filters.me)
 async def youd_think_so_but_this_says_otherwise(bot: UserBot, message: Message):
     disable_web_page_preview = True
     if len(message.command) > 1:
         disable_web_page_preview = False
 
     await message.edit(
-        f"You\'d think so, but this says <a href='https://i.imgur.com/nzncews.jpg'>otherwise</a>.",
-        disable_web_page_preview=disable_web_page_preview
+        f"You'd think so, but this says <a href='https://i.imgur.com/nzncews.jpg'>otherwise</a>.",
+        disable_web_page_preview=disable_web_page_preview,
     )
 
 
@@ -333,14 +332,17 @@ async def flip_text(bot: UserBot, message):
         await message.edit(text)
 
 
-@UserBot.on_message(filters=filters.me & filters.command('silence', '.'))
+@UserBot.on_message(filters=filters.me & filters.command("silence", "."))
 async def silence_wench(bot: UserBot, message):
-    await message.edit("Silence wench. Do not speak of the forbidden scripture to me. I was there when it was written.")
+    await message.edit(
+        "Silence wench. Do not speak of the forbidden scripture to me. I was there when it was written."
+    )
 
 
-@UserBot.on_message(filters=filters.me & filters.command(['sus', 'amongus'], '.'))
+@UserBot.on_message(filters=filters.me & filters.command(["sus", "amongus"], "."))
 async def amongus_sus(bot: UserBot, message):
-    await message.edit("""
+    await message.edit(
+        """
 ⠀⠀⠀⠀⠀⠀⠀⣠⣤⣤⣤⣤⣤⣄⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⢰⡿⠋⠁⠀⠀⠈⠉⠙⠻⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⢀⣿⠇⠀⢀⣴⣶⡾⠿⠿⠿⢿⣿⣦⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                
@@ -354,7 +356,8 @@ async def amongus_sus(bot: UserBot, message):
 ⠀⠀⠀⠀⢸⣿⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⢸⣿⣀⣀⣀⣼⡿⢿⣿⣿⣿⣿⣿⡿⣿⣿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠙⠛⠛⠛⠋⠁⠀⠙⠻⠿⠟⠋⠑⠛⠋⠀
-    """)
+    """
+    )
 
 
 # Command help section
@@ -365,8 +368,14 @@ add_command_help(
         [".compliment", "Replaces command with a nice compliment."],
         [".devexcuse", "Replaces command with an excuse that a developer would give."],
         [".reverse", "Sends ASCII version of the Uno reverse card."],
-        [".slap", "Sends a randomly generated slap text. Can become very random at some times."],
-        [".insult", "Sends a randomly generated insult. Can become very random at some times."],
+        [
+            ".slap",
+            "Sends a randomly generated slap text. Can become very random at some times.",
+        ],
+        [
+            ".insult",
+            "Sends a randomly generated insult. Can become very random at some times.",
+        ],
         [".vapor", "Vaporizes the text."],
         [".weeb `or` .weebify", "Weebifies the text."],
         [".ok", "Sends -_____- with a fast animation."],
