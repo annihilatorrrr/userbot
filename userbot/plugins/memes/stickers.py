@@ -49,8 +49,8 @@ async def sticker_super_func(bot: UserBot, message: Message):
         if command not in sticker_data:
             for sticker in sticker_data:
                 if (
-                        "alts" in sticker_data[sticker]
-                        and command in sticker_data[sticker]["alts"]
+                    "alts" in sticker_data[sticker]
+                    and command in sticker_data[sticker]["alts"]
                 ):
                     sticker = sticker_data[sticker]
                     break

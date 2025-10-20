@@ -54,9 +54,7 @@ for x in cf_api_data:
             text_api_commands.append(y)
 
 
-@UserBot.on_message(
-    filters=filters.command(text_api_commands, ".") & filters.me
-)
+@UserBot.on_message(filters=filters.command(text_api_commands, ".") & filters.me)
 async def hentai_api(bot: UserBot, message: Message):
     cmd = message.command
     api_key = cmd[0]
@@ -64,7 +62,7 @@ async def hentai_api(bot: UserBot, message: Message):
 
     try:
         data = await AioHttp().get_json(api["url"])
-        content_url: str = data['url']
+        content_url: str = data["url"]
         await bot.send_photo(message.chat.id, content_url)
     except ClientError as e:
         print(e)

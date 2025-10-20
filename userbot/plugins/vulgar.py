@@ -39,7 +39,12 @@ async def i_am_not_allowed_to_say_this(bot: UserBot, message: Message):
 
             for word in bad_words:
                 try:
-                    txt = re.sub(word, good_words[bad_words.index(word)], txt, flags=re.IGNORECASE)
+                    txt = re.sub(
+                        word,
+                        good_words[bad_words.index(word)],
+                        txt,
+                        flags=re.IGNORECASE,
+                    )
                 except Exception as e:
                     LOGS.warn(e)
 

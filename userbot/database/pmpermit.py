@@ -62,7 +62,8 @@ class PmPermit:
         to_check = self.pm_table.find_one({"user_id": user_id})
 
         if "warned" not in to_check:
-            self.pm_table.update_one({"user_id": user_id}, {"$set": {"warned": False}})
+            self.pm_table.update_one({"user_id": user_id}, {
+                                     "$set": {"warned": False}})
             return False
         elif to_check["warned"] is False:
             return False
@@ -73,7 +74,8 @@ class PmPermit:
         if self.check_if_warned(user_id) is True:
             return False
         else:
-            self.pm_table.update_one({"user_id": user_id}, {"$set": {"warned": True}})
+            self.pm_table.update_one({"user_id": user_id}, {
+                                     "$set": {"warned": True}})
             return True
 
     def increment_retard_level(self, user_id):

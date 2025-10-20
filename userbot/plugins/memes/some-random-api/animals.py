@@ -5,17 +5,38 @@ from pyrogram import filters
 from pyrogram.types import Message
 
 from userbot import UserBot
-from userbot.helpers.PyroHelpers import ReplyCheck
 from userbot.helpers.aiohttp_helper import AioHttp
+from userbot.helpers.PyroHelpers import ReplyCheck
 from userbot.plugins.help import add_command_help
 
 animal = r"([^.]*)$"
 ok_exts = ["jpg", "jpeg", "png"]
 
-animals_without_facts = ['dog', 'cat', 'panda', 'fox', 'red_panda', 'birb', 'koala', 'kangaroo', 'racoon']
+animals_without_facts = [
+    "dog",
+    "cat",
+    "panda",
+    "fox",
+    "red_panda",
+    "birb",
+    "koala",
+    "kangaroo",
+    "racoon",
+]
 
-animals_with_facts = ['dog', 'cat', 'panda', 'fox', 'birb', 'koala', 'kangaroo', 'racoon', 'elephant', 'giraffe',
-                      'whale']
+animals_with_facts = [
+    "dog",
+    "cat",
+    "panda",
+    "fox",
+    "birb",
+    "koala",
+    "kangaroo",
+    "racoon",
+    "elephant",
+    "giraffe",
+    "whale",
+]
 
 
 async def prep_animal_image(input_animal):
@@ -23,8 +44,10 @@ async def prep_animal_image(input_animal):
     image = None
 
     while ext not in ok_exts:
-        data = await AioHttp().get_json(f"https://some-random-api.com/animal/{input_animal}")
-        image = data['image']
+        data = await AioHttp().get_json(
+            f"https://some-random-api.com/animal/{input_animal}"
+        )
+        image = data["image"]
         ext = re.search(animal, image).group(1).lower()
 
     return image
@@ -83,14 +106,13 @@ animal_image_help = []
 for x in animals_without_facts:
     animal_image_help.append([f".{x}", f"Sends a random picture of a {x}"])
 
-animal_image_help.append(["These commands", "Works without the command prefix also"])
+animal_image_help.append(
+    ["These commands", "Works without the command prefix also"])
 
 add_command_help("animals", animal_image_help)
 
 add_command_help(
     "facts",
-    [
-        [f".fact {x}", f"Send a random fact about {x}"]
-        for x in animals_with_facts
-    ],
+    [[f".fact {x}", f"Send a random fact about {x}"]
+        for x in animals_with_facts],
 )

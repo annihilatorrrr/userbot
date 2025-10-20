@@ -1,9 +1,9 @@
 import asyncio
 import io
 import os
+import re
 import sys
 import traceback
-import re
 from typing import Optional
 
 from pyrogram import filters
@@ -18,40 +18,32 @@ GST_RATE = 8  # 8% GST
 
 
 @UserBot.on_message(
-    filters.command("eval", ".")
-    & filters.me
-    & ~filters.forwarded
-    & ~filters.via_bot
+    filters.command(
+        "eval", ".") & filters.me & ~filters.forwarded & ~filters.via_bot
 )
 async def eval_func_init(bot, message):
     await evaluation_func(bot, message)
 
 
 @UserBot.on_edited_message(
-    filters.command("eval", ".")
-    & filters.me
-    & ~filters.forwarded
-    & ~filters.via_bot
+    filters.command(
+        "eval", ".") & filters.me & ~filters.forwarded & ~filters.via_bot
 )
 async def eval_func_edited(bot, message):
     await evaluation_func(bot, message)
 
 
 @UserBot.on_message(
-    filters.command("math", ".")
-    & filters.me
-    & ~filters.forwarded
-    & ~filters.via_bot
+    filters.command(
+        "math", ".") & filters.me & ~filters.forwarded & ~filters.via_bot
 )
 async def math_func_init(bot, message):
     await math_evaluation(bot, message)
 
 
 @UserBot.on_edited_message(
-    filters.command("math", ".")
-    & filters.me
-    & ~filters.forwarded
-    & ~filters.via_bot
+    filters.command(
+        "math", ".") & filters.me & ~filters.forwarded & ~filters.via_bot
 )
 async def math_func_edited(bot, message):
     await math_evaluation(bot, message)
@@ -136,17 +128,23 @@ async def aexec(code, b, m, r, d):
 async def math_evaluation(bot: UserBot, message: Message):
     parts = message.text.split(" ", maxsplit=1)
     if len(parts) < 2 or not parts[1].strip():
-        await message.reply_text("Please provide a mathematical expression to evaluate.")
+        await message.reply_text(
+            "Please provide a mathematical expression to evaluate."
+        )
         return
 
-    expression =  parts[1]
+    expression = parts[1]
 
     # Handle GST calculations using GST_RATE variable
     # 10+GST -> 10*1.08 (add GST to amount to get total)
     gst_multiplier = 1 + (GST_RATE / 100)
-    expression = re.sub(r"\+GST\b", f"*{gst_multiplier}", expression, flags=re.IGNORECASE)
+    expression = re.sub(
+        r"\+GST\b", f"*{gst_multiplier}", expression, flags=re.IGNORECASE
+    )
     # 10.8-GST -> 10.8/1.08 (remove GST to get base amount)
-    expression = re.sub(r"-GST\b", f"/{gst_multiplier}", expression, flags=re.IGNORECASE)
+    expression = re.sub(
+        r"-GST\b", f"/{gst_multiplier}", expression, flags=re.IGNORECASE
+    )
 
     def handle_percentage(match):
         try:
@@ -161,20 +159,16 @@ async def math_evaluation(bot: UserBot, message: Message):
 
 
 @UserBot.on_edited_message(
-    filters.command("exec", ".")
-    & filters.me
-    & ~filters.forwarded
-    & ~filters.via_bot
+    filters.command(
+        "exec", ".") & filters.me & ~filters.forwarded & ~filters.via_bot
 )
 async def execution_func_edited(bot, message):
     await execution(bot, message)
 
 
 @UserBot.on_message(
-    filters.command("exec", ".")
-    & filters.me
-    & ~filters.forwarded
-    & ~filters.via_bot
+    filters.command(
+        "exec", ".") & filters.me & ~filters.forwarded & ~filters.via_bot
 )
 async def execution_func(bot, message):
     await execution(bot, message)

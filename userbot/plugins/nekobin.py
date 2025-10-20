@@ -16,7 +16,7 @@ async def paste(bot: UserBot, message: Message):
     try:
         async with aiohttp.ClientSession() as session:
             async with session.post(
-                    "https://nekobin.com/api/documents", json={"content": text}, timeout=3
+                "https://nekobin.com/api/documents", json={"content": text}, timeout=3
             ) as response:
                 key = (await response.json())["result"]["key"]
     except Exception:
@@ -30,8 +30,8 @@ async def paste(bot: UserBot, message: Message):
         delete = (
             True
             if len(message.command) > 1
-               and message.command[1] in ["d", "del"]
-               and message.reply_to_message.from_user.is_self
+            and message.command[1] in ["d", "del"]
+            and message.reply_to_message.from_user.is_self
             else False
         )
         if delete:

@@ -37,8 +37,7 @@ async def unsplash_pictures(bot: UserBot, message: Message):
                 f"https://source.unsplash.com/1600x900/?{keyword}"
             )
             await asyncio.gather(
-                message.delete(), 
-                bot.send_photo(message.chat.id, str(img))
+                message.delete(), bot.send_photo(message.chat.id, str(img))
             )
 
 

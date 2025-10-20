@@ -5,12 +5,12 @@ from pyrogram.errors import UserAdminInvalid
 from pyrogram.types import ChatPermissions, Message
 
 from userbot import UserBot
-from userbot.helpers.PyroHelpers import GetUserMentionable
 from userbot.helpers.adminHelpers import CheckAdmin, CheckReplyAdmin, RestrictFailed
+from userbot.helpers.PyroHelpers import GetUserMentionable
 from userbot.plugins.help import add_command_help
 
 
-@UserBot.on_message(filters.command('ban', '.') & filters.me)
+@UserBot.on_message(filters.command("ban", ".") & filters.me)
 async def ban_hammer(bot: UserBot, message: Message):
     duration = int(message.command[1]) if len(message.command) > 1 else False
 
@@ -65,7 +65,7 @@ mute_permission = ChatPermissions(
 )
 
 
-@UserBot.on_message(filters.command('mute', '.') & filters.me)
+@UserBot.on_message(filters.command("mute", ".") & filters.me)
 async def mute_hammer(bot: UserBot, message: Message):
     duration = int(message.command[1]) if len(message.command) > 1 else False
 

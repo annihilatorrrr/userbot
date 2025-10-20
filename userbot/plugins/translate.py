@@ -22,7 +22,7 @@ async def yoda(bot: UserBot, message: Message):
 
     async with aiohttp.ClientSession() as session:
         async with session.get(
-                f"https://api.funtranslations.com/translate/yoda.json?text={txt}"
+            f"https://api.funtranslations.com/translate/yoda.json?text={txt}"
         ) as resp:
             result = await resp.json()
 
@@ -37,5 +37,6 @@ async def yoda(bot: UserBot, message: Message):
 
 add_command_help(
     "translate",
-    [[".tr `or` .trans", "Translate text to English."], [".yoda", "Like Yoda, speak."]],
+    [[".tr `or` .trans", "Translate text to English."],
+        [".yoda", "Like Yoda, speak."]],
 )

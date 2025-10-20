@@ -7,7 +7,7 @@ from userbot.plugins.help import add_command_help
 
 memes_data = {
     "judgement": {
-        "alts": ['judge', 'crow'],
+        "alts": ["judge", "crow"],
         "name": "crow_of_judgement",
         "image": "crow-of-judgement.jpg",
         "type": "image",
@@ -115,7 +115,7 @@ memes_data = {
         "help": "Are you dumb?.",
     },
     "confused": {
-        "alts": ["confuse", 'huh', 'what'],
+        "alts": ["confuse", "huh", "what"],
         "name": "confused",
         "image": "confused.jpg",
         "type": "image",

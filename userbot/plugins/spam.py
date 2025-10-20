@@ -18,7 +18,9 @@ async def spam(bot: UserBot, message: Message):
     to_spam = " ".join(message.command[2:])
 
     for _ in range(int(times)):
-        await bot.send_message(message.chat.id, to_spam, reply_to_message_id=ReplyCheck(message))
+        await bot.send_message(
+            message.chat.id, to_spam, reply_to_message_id=ReplyCheck(message)
+        )
         await asyncio.sleep(0.20)
 
 

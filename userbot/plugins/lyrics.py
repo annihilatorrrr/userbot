@@ -8,7 +8,8 @@ from userbot.plugins.help import add_command_help
 
 
 @UserBot.on_message(
-    filters.command(["l", "lyrics"], ".") & (filters.me | filters.user(ALLOWED_USERS))
+    filters.command(["l", "lyrics"], ".") & (
+        filters.me | filters.user(ALLOWED_USERS))
 )
 async def send_lyrics(bot: UserBot, message: Message):
     try:

@@ -8,21 +8,52 @@ from userbot import UserBot
 from userbot.plugins.help import add_command_help
 
 # Dictionary representing the morse code chart
-MORSE_CODE_DICT = {'A': '.-', 'B': '-...',
-                   'C': '-.-.', 'D': '-..', 'E': '.',
-                   'F': '..-.', 'G': '--.', 'H': '....',
-                   'I': '..', 'J': '.---', 'K': '-.-',
-                   'L': '.-..', 'M': '--', 'N': '-.',
-                   'O': '---', 'P': '.--.', 'Q': '--.-',
-                   'R': '.-.', 'S': '...', 'T': '-',
-                   'U': '..-', 'V': '...-', 'W': '.--',
-                   'X': '-..-', 'Y': '-.--', 'Z': '--..',
-                   '1': '.----', '2': '..---', '3': '...--',
-                   '4': '....-', '5': '.....', '6': '-....',
-                   '7': '--...', '8': '---..', '9': '----.',
-                   '0': '-----', ', ': '--..--', '.': '.-.-.-',
-                   '?': '..--..', '/': '-..-.', '-': '-....-',
-                   '(': '-.--.', ')': '-.--.-', ' ': '/'}
+MORSE_CODE_DICT = {
+    "A": ".-",
+    "B": "-...",
+    "C": "-.-.",
+    "D": "-..",
+    "E": ".",
+    "F": "..-.",
+    "G": "--.",
+    "H": "....",
+    "I": "..",
+    "J": ".---",
+    "K": "-.-",
+    "L": ".-..",
+    "M": "--",
+    "N": "-.",
+    "O": "---",
+    "P": ".--.",
+    "Q": "--.-",
+    "R": ".-.",
+    "S": "...",
+    "T": "-",
+    "U": "..-",
+    "V": "...-",
+    "W": ".--",
+    "X": "-..-",
+    "Y": "-.--",
+    "Z": "--..",
+    "1": ".----",
+    "2": "..---",
+    "3": "...--",
+    "4": "....-",
+    "5": ".....",
+    "6": "-....",
+    "7": "--...",
+    "8": "---..",
+    "9": "----.",
+    "0": "-----",
+    ", ": "--..--",
+    ".": ".-.-.-",
+    "?": "..--..",
+    "/": "-..-.",
+    "-": "-....-",
+    "(": "-.--.",
+    ")": "-.--.-",
+    " ": "/",
+}
 
 
 @UserBot.on_message(filters.command("morse", ".") & filters.me)
@@ -30,12 +61,12 @@ async def morse_encrypt(bot: UserBot, message: Message):
     cmd = message.command
 
     def encrypt(input_string):
-        cipher = ''
+        cipher = ""
         for letter in input_string:
-            if letter != ' ':
-                cipher += MORSE_CODE_DICT[letter] + ' '
+            if letter != " ":
+                cipher += MORSE_CODE_DICT[letter] + " "
             else:
-                cipher += ' '
+                cipher += " "
 
         return cipher
 
@@ -63,20 +94,22 @@ async def morse_decrypt(bot: UserBot, message: Message):
     cmd = message.command
 
     def decrypt(input_string):
-        input_string += ' '
-        decipher = ''
-        citext = ''
+        input_string += " "
+        decipher = ""
+        citext = ""
         for letter in input_string:
-            if letter != ' ':
+            if letter != " ":
                 i = 0
                 citext += letter
             else:
                 i += 1
                 if i == 2:
-                    decipher += ' '
+                    decipher += " "
                 else:
-                    decipher += list(MORSE_CODE_DICT.keys())[list(MORSE_CODE_DICT.values()).index(citext)]
-                    citext = ''
+                    decipher += list(MORSE_CODE_DICT.keys())[
+                        list(MORSE_CODE_DICT.values()).index(citext)
+                    ]
+                    citext = ""
 
         return decipher
 

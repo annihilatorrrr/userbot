@@ -25,7 +25,8 @@ class SkyrimStatusMeme:
         draw = ImageDraw.Draw(backgroundImage)
         posx = (backgroundImage.width - self.GetSize()[0]) / 2
         posy = (backgroundImage.height - self.GetSize()[1]) / 2
-        draw.text((posx + 3, posy + 3), self.finalText, fill="black", font=self.font)
+        draw.text((posx + 3, posy + 3), self.finalText,
+                  fill="black", font=self.font)
         draw.text((posx, posy), self.finalText, fill="white", font=self.font)
         self.finalImage = backgroundImage
 

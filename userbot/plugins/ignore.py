@@ -7,7 +7,7 @@ from userbot import UserBot
 from userbot.database.ignore import ignore_db
 
 
-@UserBot.on_message(filters.private & filters.command("ignore", '.'))
+@UserBot.on_message(filters.private & filters.command("ignore", "."))
 async def ignore_command(client: UserBot, message: Message):
     if not message.from_user:
         return
@@ -20,7 +20,7 @@ async def ignore_command(client: UserBot, message: Message):
         await message.reply_text("This chat is already ignored.")
 
 
-@UserBot.on_message(filters.private & filters.command("unignore", '.'))
+@UserBot.on_message(filters.private & filters.command("unignore", "."))
 async def unignore_command(client: UserBot, message: Message):
     if not message.from_user:
         return
@@ -40,8 +40,12 @@ async def handle_ignored_message(client: Client, message: Message):
     if ignore_db.is_ignored(user_id):
         await client.read_chat_history(message.chat.id)
         last_message_time = ignore_db.get_last_message_time(user_id)
-        if last_message_time is None or datetime.now() - last_message_time > timedelta(hours=1):
-            await message.reply_text("This chat has been ignored and is not monitored by user")
+        if last_message_time is None or datetime.now() - last_message_time > timedelta(
+            hours=1
+        ):
+            await message.reply_text(
+                "This chat has been ignored and is not monitored by user"
+            )
             ignore_db.set_last_message_time(user_id)
     else:
         await message.continue_propagation()

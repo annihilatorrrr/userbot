@@ -10,7 +10,7 @@ from userbot.plugins.help import add_command_help
 
 @UserBot.on_message(filters.command(["define", "dict"], ".") & filters.me)
 async def define(bot: UserBot, message: Message):
-    """ Thank you Poki!!"""
+    """Thank you Poki!!"""
     cmd = message.command
 
     input_string = ""
@@ -30,15 +30,16 @@ async def define(bot: UserBot, message: Message):
             if "definition" in i:
                 if "example" in i:
                     w_word += (
-                            "\n**Definition**\n<pre>"
-                            + i["definition"]
-                            + "</pre>\n<b>Example</b>\n<pre>"
-                            + i["example"]
-                            + "</pre>"
+                        "\n**Definition**\n<pre>"
+                        + i["definition"]
+                        + "</pre>\n<b>Example</b>\n<pre>"
+                        + i["example"]
+                        + "</pre>"
                     )
                 else:
                     w_word += (
-                            "\n**Definition**\n" + "<pre>" + i["definition"] + "</pre>"
+                        "\n**Definition**\n" + "<pre>" +
+                        i["definition"] + "</pre>"
                     )
         w_word += "\n\n"
         return w_word
@@ -89,13 +90,13 @@ async def define(bot: UserBot, message: Message):
                 # print(crosref)
         if "title" in list(word1):
             out += (
-                    "**__Error Note__**\n\n▪️`"
-                    + word1["title"]
-                    + "\n\n▪️"
-                    + word1["message"]
-                    + "\n\n▪️<i>"
-                    + word1["resolution"]
-                    + "</i>`"
+                "**__Error Note__**\n\n▪️`"
+                + word1["title"]
+                + "\n\n▪️"
+                + word1["message"]
+                + "\n\n▪️<i>"
+                + word1["resolution"]
+                + "</i>`"
             )
         return out
 

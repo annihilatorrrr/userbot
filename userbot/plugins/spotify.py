@@ -9,7 +9,10 @@ from userbot.helpers import spotify
 from userbot.plugins.help import add_command_help
 
 
-@UserBot.on_message(filters.command(["np", "now", "nowplaying"], ".") & (filters.me | filters.user(ALLOWED_USERS)))
+@UserBot.on_message(
+    filters.command(["np", "now", "nowplaying"], ".")
+    & (filters.me | filters.user(ALLOWED_USERS))
+)
 async def now_playing(bot: UserBot, message: Message):
     current_track = await spotify.now_playing()
 
@@ -21,14 +24,18 @@ async def now_playing(bot: UserBot, message: Message):
         await message.edit("API details not set. Please read the README!")
         return
 
-    track = current_track['item']
-    song = track['name']
-    link = track['external_urls']['spotify']
+    track = current_track["item"]
+    song = track["name"]
+    link = track["external_urls"]["spotify"]
 
-    await message.edit(f'{emoji.MUSICAL_NOTE} Currently Playing: <a href="{link}">{song}</a>')
+    await message.edit(
+        f'{emoji.MUSICAL_NOTE} Currently Playing: <a href="{link}">{song}</a>'
+    )
 
 
-@UserBot.on_message(filters.command(["npd"], ".") & (filters.me | filters.user(ALLOWED_USERS)))
+@UserBot.on_message(
+    filters.command(["npd"], ".") & (filters.me | filters.user(ALLOWED_USERS))
+)
 async def download_now_playing_song(bot: UserBot, message: Message):
     current_track = await spotify.now_playing()
 
@@ -40,17 +47,20 @@ async def download_now_playing_song(bot: UserBot, message: Message):
         await message.edit("API details not set. Please read the README!")
         return
 
-    track = current_track['item']
-    link = track['external_urls']['spotify']
+    track = current_track["item"]
+    link = track["external_urls"]["spotify"]
 
     await asyncio.gather(
-        bot.send_message('@deezermusicbot', link, parse_mode=ParseMode.DISABLED),
-        message.delete()
+        bot.send_message("@deezermusicbot", link,
+                         parse_mode=ParseMode.DISABLED),
+        message.delete(),
     )
 
 
 @UserBot.on_message(
-    filters.command(["sdev", "sdevices", "spotifydevices", "sd"], ".") & (filters.me | filters.user(ALLOWED_USERS)))
+    filters.command(["sdev", "sdevices", "spotifydevices", "sd"], ".")
+    & (filters.me | filters.user(ALLOWED_USERS))
+)
 async def list_devices(bot: UserBot, message: Message):
     current_devices = await spotify.list_devices()
 
@@ -63,10 +73,10 @@ async def list_devices(bot: UserBot, message: Message):
         return
 
     devices = ["My devices active on Spotify right now:"]
-    for index, device in enumerate(current_devices['devices'], start=1):
+    for index, device in enumerate(current_devices["devices"], start=1):
         devices.append(f"{index}) {device['name']} - {device['type']}")
 
-    device_msg = '\n'.join(devices)
+    device_msg = "\n".join(devices)
     await message.edit(device_msg)
 
 
