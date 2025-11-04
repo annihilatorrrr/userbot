@@ -6,22 +6,24 @@ import tempfile
 
 import requests
 from pyrogram import filters
-from pyrogram.types import Message, LinkPreviewOptions
+from pyrogram.types import LinkPreviewOptions, Message
 
-from userbot import UserBot, SOCKS5_PROXY
+from userbot import SOCKS5_PROXY, UserBot
 from userbot.plugins.help import add_command_help
 
 # Instagram URL regex pattern - updated to include ddinstagram.com
-instagram_regex = r'https?://(www\.)?(instagram\.com|ddinstagram\.com)/(p|reels|reel|tv|stories)/[a-zA-Z0-9_-]+/?'
+instagram_regex = r"https?://(www\.)?(instagram\.com|ddinstagram\.com)/(p|reels|reel|tv|stories)/[a-zA-Z0-9_-]+/?"
 
 # TikTok URL regex pattern - updated to support empty usernames
-tiktok_regex = r'https?://(www\.|vm\.|vt\.)?tiktok\.com/(@[\w.-]*/video/\d+|@/video/\d+|[\w]+/?).*'
+tiktok_regex = (
+    r"https?://(www\.|vm\.|vt\.)?tiktok\.com/(@[\w.-]*/video/\d+|@/video/\d+|[\w]+/?).*"
+)
 
 # YouTube URL regex pattern - matches all YouTube video formats (shorts, watch, embed, etc.)
-youtube_regex = r'https?://(www\.)?(youtube\.com/(watch\?v=|shorts/|embed/|v/)|youtu\.be/)[a-zA-Z0-9_-]+/?(\?.*)?'
+youtube_regex = r"https?://(www\.)?(youtube\.com/(watch\?v=|shorts/|embed/|v/)|youtu\.be/)[a-zA-Z0-9_-]+/?(\?.*)?"
 
 # Facebook URL regex pattern - supports various Facebook video URL formats
-facebook_regex = r'https?://(www\.|m\.|web\.)?facebook\.com/(watch/?\?v=\d+|[\w.-]+/videos/\d+|reel/\d+|share/(v|r)/\d+|[\w.-]+/posts/\d+)/?.*'
+facebook_regex = r"https?://(www\.|m\.|web\.)?facebook\.com/(watch/?\?v=\d+|[\w.-]+/videos/\d+|reel/\d+|share/(v|r)/\d+|[\w.-]+/posts/\d+)/?.*"
 
 # Combined regex for function trigger
 video_url_regex = f"({instagram_regex}|{tiktok_regex}|{youtube_regex}|{facebook_regex})"
@@ -41,7 +43,7 @@ def get_final_url(url):
             final_url = response.url
 
             # Remove tracking parameters (anything after the ?)
-            clean_url = final_url.split('?')[0]
+            clean_url = final_url.split("?")[0]
 
             return clean_url
 
@@ -59,11 +61,14 @@ def process_urls(url):
 
     # For ddinstagram.com links, always convert to instagram.com
     if ("ddinstagram.com" in real_url) or ("kkinstagram.com" in real_url):
-        download_url = real_url.replace("ddinstagram.com", "instagram.com").replace("kkinstagram.com", "instagram.com")
+        download_url = real_url.replace("ddinstagram.com", "instagram.com").replace(
+            "kkinstagram.com", "instagram.com"
+        )
     else:
         download_url = real_url
 
     return download_url
+
 
 @UserBot.on_message(filters.regex(video_url_regex) & filters.me)
 async def video_downloader(bot: UserBot, message: Message, from_reply=False):
@@ -103,7 +108,9 @@ async def video_downloader(bot: UserBot, message: Message, from_reply=False):
         message.chat.id,
         f"Downloading from {platform}: {download_url}",
         disable_notification=True,  # Send silently
-        link_preview_options=LinkPreviewOptions(is_disabled=True)  # Disable link preview
+        link_preview_options=LinkPreviewOptions(
+            is_disabled=True
+        ),  # Disable link preview
     )
 
     # Create a temporary directory for downloading
@@ -112,7 +119,7 @@ async def video_downloader(bot: UserBot, message: Message, from_reply=False):
             "yt-dlp",
             download_url,
             "-o",
-            os.path.join(temp_dir, "%(title)s [%(id)s].%(ext)s")
+            os.path.join(temp_dir, "%(title)s [%(id)s].%(ext)s"),
         ]
 
         # Use SOCKS5 proxy if configured
@@ -124,36 +131,36 @@ async def video_downloader(bot: UserBot, message: Message, from_reply=False):
             # Update status (without preview)
             await status_msg.edit(
                 f"⬇️ Downloading: {download_url}",
-                link_preview_options=LinkPreviewOptions(is_disabled=True)  # Disable link preview
+                link_preview_options=LinkPreviewOptions(
+                    is_disabled=True
+                ),  # Disable link preview
             )
 
             # Download the video using yt-dlp
             process = subprocess.run(
-                yt_dlp_args,
-                capture_output=True,
-                text=True,
-                check=False
+                yt_dlp_args, capture_output=True, text=True, check=False
             )
 
             if process.returncode != 0:
                 await status_msg.edit(
                     f"⚠️ Failed to download: {process.stderr[:500]}...\n\nTrying with different options...",
-                    link_preview_options=LinkPreviewOptions(is_disabled=True)  # Disable link preview
+                    link_preview_options=LinkPreviewOptions(
+                        is_disabled=True
+                    ),  # Disable link preview
                 )
 
                 # Try with --no-check-certificate if it failed
-                yt_dlp_args.append('--no-check-certificate')
+                yt_dlp_args.append("--no-check-certificate")
                 process = subprocess.run(
-                    yt_dlp_args,
-                    capture_output=True,
-                    text=True,
-                    check=False
+                    yt_dlp_args, capture_output=True, text=True, check=False
                 )
 
                 if process.returncode != 0:
                     await status_msg.edit(
                         f"❌ Download failed. Error: {process.stderr[:500]}...",
-                        link_preview_options=LinkPreviewOptions(is_disabled=True)  # Disable link preview
+                        link_preview_options=LinkPreviewOptions(
+                            is_disabled=True
+                        ),  # Disable link preview
                     )
                     await asyncio.sleep(5)
                     await status_msg.delete()
@@ -164,7 +171,9 @@ async def video_downloader(bot: UserBot, message: Message, from_reply=False):
             if not downloaded_files:
                 await status_msg.edit(
                     "❌ No files downloaded.",
-                    link_preview_options=LinkPreviewOptions(is_disabled=True)  # Disable link preview
+                    link_preview_options=LinkPreviewOptions(
+                        is_disabled=True
+                    ),  # Disable link preview
                 )
                 await asyncio.sleep(5)
                 await status_msg.delete()
@@ -187,7 +196,9 @@ async def video_downloader(bot: UserBot, message: Message, from_reply=False):
             # Update status (without preview)
             await status_msg.edit(
                 "⬆️ Uploading video...",
-                link_preview_options=LinkPreviewOptions(is_disabled=True)  # Disable link preview
+                link_preview_options=LinkPreviewOptions(
+                    is_disabled=True
+                ),  # Disable link preview
             )
 
             # Upload the video (this one can notify as it's the final content)
@@ -195,10 +206,11 @@ async def video_downloader(bot: UserBot, message: Message, from_reply=False):
                 message.chat.id,
                 video_path,
                 caption=caption,
-                reply_to_message_id=message.id if from_reply else None
+                reply_to_message_id=message.id if from_reply else None,
             )
-            
-            if not from_reply: await message.delete()
+
+            if not from_reply:
+                await message.delete()
 
             # Delete the status message when complete
             await status_msg.delete()
@@ -206,10 +218,13 @@ async def video_downloader(bot: UserBot, message: Message, from_reply=False):
         except Exception as e:
             await status_msg.edit(
                 f"❌ Error: {str(e)[:500]}...",
-                link_preview_options=LinkPreviewOptions(is_disabled=True)  # Disable link preview
+                link_preview_options=LinkPreviewOptions(
+                    is_disabled=True
+                ),  # Disable link preview
             )
             await asyncio.sleep(5)
             await status_msg.delete()
+
 
 @UserBot.on_message(filters.command("dl", ".") & filters.me)
 async def download_video_command(bot: UserBot, message: Message):
@@ -217,21 +232,26 @@ async def download_video_command(bot: UserBot, message: Message):
         await message.edit_text("Please reply to a message.")
         return
 
-    if message.reply_to_message and not (message.reply_to_message.text or message.reply_to_message.caption):
+    if message.reply_to_message and not (
+        message.reply_to_message.text or message.reply_to_message.caption
+    ):
         await message.edit_text("Please reply to a message containing a video link.")
         return
 
     # Extract the link from the replied message
     reply_text = message.reply_to_message.text or message.reply_to_message.caption
-    
+
     # Check if it matches the video URL regex
     if not re.search(video_url_regex, reply_text):
-        await message.edit_text("The replied message does not contain a valid video link.")
+        await message.edit_text(
+            "The replied message does not contain a valid video link."
+        )
         return
 
     # Call the main video downloader function with the link
     await message.delete()
     await video_downloader(bot, message.reply_to_message, from_reply=True)
+
 
 # Command help section
 add_command_help(
@@ -256,6 +276,6 @@ add_command_help(
         [
             ".dl",
             "Download the video from the link you sent. This command is useful to trigger it for a link someone else sends.",
-        ]
+        ],
     ],
 )
